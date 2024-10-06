@@ -28,13 +28,13 @@ def get_undeliverable_email_adress_from_error_mail(error_email):
     return undelivered_email_address.group(0)
 
 
-def check_undelivered_emails():
+def check_undelivered_emails(undelivered_emails_list):
     """ "
     Checks the inbox for undelivered emails and appends the undelivered email addresses to a csv file.
     Automatic error mails are deleted from the inbox.
 
     Parameters:
-    - None
+    - undelivered_emails_list (string) : path to csv file of all non existing email adresses
 
     Returns:
     - None
@@ -58,17 +58,17 @@ def check_undelivered_emails():
     # append the undelivered email addresses to a csv file
     undelivered_emails_df = pd.DataFrame(undelivered_emails)
     undelivered_emails_df.to_csv(
-        "../data/undelivered_emails.csv", mode="a", header=False
+        undelivered_emails_list, mode="a", header=False
     )
 
 
-def remove_emails_from_clients():
+def remove_emails_from_clients(client_list):
     """
     Checks in inbox if contacted adresses have answered to the mail. If so,
     deletes their answer.
 
     Parameters :
-    - None
+    - client_list (string) : path to the dataset with all clients
 
     Returns :
     - None
@@ -81,7 +81,7 @@ def remove_emails_from_clients():
     messages = inbox.Items
 
     # read the clients list
-    clients_list = pd.read_csv("../data/241003_cleaned_dataset.csv")["EMAIL"]
+    clients_list = pd.read_csv(client_list)["EMAIL"]
 
     for message in messages:
 
@@ -109,6 +109,8 @@ def send_email_with_html(
     email_subject,
     html_content,
     client_name,
+    image_path_1,
+    image_path_2,
     client_surname="",
     random_time_spacing=False,
     attachment_location="",
@@ -123,6 +125,8 @@ def send_email_with_html(
     - html_content (str) : the path to the html content of the email
     - client_name (str) : the name of the client
     - client_surname (str) : the surname of the client
+    - image_path_1 (str) : path to first image
+    - image_path_2 (str) : path to second image
     - random_time_spacing (bool) : if True, a random time spacing is added
     between two emails, uniformly distributed between à and 3 seconds
     - attachment_location (str) : the path to the attachment file
@@ -142,10 +146,10 @@ def send_email_with_html(
     # add html content to the email
     mail.HTMLBody = html_content
 
-    image_path1 = "../data/photo_armen.png"
+    image_path1 = image_path_1
     image_cid1 = "image1"
 
-    image_path2 = "../data/photo_signature.png"
+    image_path2 = image_path_2
     image_cid2 = "image2"
 
     # Ajout de la première image en tant que pièce jointe avec Content-ID
