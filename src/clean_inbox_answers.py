@@ -7,8 +7,10 @@
 
 ###### PARAMETERS #######
 
-CLIENT_LIST = "./data/241003_cleaned_dataset.csv"
+CLIENT_LIST = "./test/test_client_answers_bdd.csv"
 
+
+###############
 
 from utils import remove_emails_from_clients
 

@@ -28,13 +28,14 @@ def get_undeliverable_email_adress_from_error_mail(error_email):
     return undelivered_email_address.group(0)
 
 
-def check_undelivered_emails(undelivered_emails_list):
+def check_undelivered_emails(undelivered_emails_list, mail_object):
     """ "
     Checks the inbox for undelivered emails and appends the undelivered email addresses to a csv file.
     Automatic error mails are deleted from the inbox.
 
     Parameters:
     - undelivered_emails_list (string) : path to csv file of all non existing email adresses
+    - mail object (str) : the object of the mail
 
     Returns:
     - None
@@ -44,12 +45,20 @@ def check_undelivered_emails(undelivered_emails_list):
     inbox = outlook.GetNamespace("MAPI").GetDefaultFolder(6)
     messages = inbox.Items
     undelivered_emails = []
+
+
     for message in messages:
-        if "Non remis" in message.Subject or "Undelivered" in message.Subject:
-            # get the email address of the undelivered email
+
+        # or mail_object in message.Subjec
+
+        if "Non remis" in message.Subject or "Undelivered" in message.Subject :
+
+  
             undelivered_email_address = get_undeliverable_email_adress_from_error_mail(
                 message.Body
             )
+
+
             undelivered_emails.append(undelivered_email_address)
 
             # remove the undelivered email from the inbox
@@ -57,9 +66,7 @@ def check_undelivered_emails(undelivered_emails_list):
 
     # append the undelivered email addresses to a csv file
     undelivered_emails_df = pd.DataFrame(undelivered_emails)
-    undelivered_emails_df.to_csv(
-        undelivered_emails_list, mode="a", header=False
-    )
+    undelivered_emails_df.to_csv(undelivered_emails_list, mode="a", header=False, index=False)
 
 
 def remove_emails_from_clients(client_list):
@@ -74,14 +81,13 @@ def remove_emails_from_clients(client_list):
     - None
 
     """
-
     # check unread emails
     outlook = win32.Dispatch("outlook.application")
     inbox = outlook.GetNamespace("MAPI").GetDefaultFolder(6)
     messages = inbox.Items
 
     # read the clients list
-    clients_list = pd.read_csv(client_list)["EMAIL"]
+    clients_list = pd.read_csv(client_list)["EMAIL"].tolist()
 
     for message in messages:
 
@@ -90,7 +96,6 @@ def remove_emails_from_clients(client_list):
 
         # check if the sender email address is in the clients list
         if sender_email_address in clients_list:
-
             # delete the email
             message.Delete()
 
@@ -141,7 +146,9 @@ def send_email_with_html(
     mail.Subject = email_subject
 
     # add client name and surname to the html content
+    # by replacing [Recipient's Name] by client_name
     html_content = html_content.replace("[Recipient's Name]", client_name)
+
 
     # add html content to the email
     mail.HTMLBody = html_content

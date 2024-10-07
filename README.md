@@ -12,26 +12,11 @@ Points clés :
 
 
 - follow up sur le dataset updaté (total - adresse manquantes - ceux qui ont répondu aux sondages)
-
-## Tests
-
-- depuis où le lancer ?
-- test .sh et .py
-
-
-## A avor
-
+****
 
 ## TODO
 
-- update clenaing, autres regles que "non remis", regex adressee microsoft
-- cron pour le cleanin-g 
-  - cleaning 
-  - doit tourner sur windows ! PRENDRE 3.9
-wine /media/basile/Windows/Users/basil/AppData/Local/Programs/Python/Python311/python.exe /media/basile/Windows/Users/basil/Desktop/98.\ Mission\ JE/src/send_emails.py
 - 2 Follow up  : faire template mail
-  
-
 
 ## DONE
 
