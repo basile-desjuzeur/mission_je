@@ -69,7 +69,7 @@ def check_undelivered_emails(undelivered_emails_list, mail_object):
     undelivered_emails_df.to_csv(undelivered_emails_list, mode="a", header=False, index=False)
 
 
-def remove_emails_from_clients(client_list):
+def remove_emails_from_clients(client_list, answers_list):
     """
     Checks in inbox if contacted adresses have answered to the mail. If so,
     deletes their answer.
@@ -86,19 +86,49 @@ def remove_emails_from_clients(client_list):
     inbox = outlook.GetNamespace("MAPI").GetDefaultFolder(6)
     messages = inbox.Items
 
+    senders = [message.Sender for message in messages]
+    emails = []
+
+    for sender in senders:
+        if sender.GetExchangeUser():
+                sender_email = sender.GetExchangeUser().PrimarySmtpAddress
+        else:
+            sender_email = sender.Address
+
+        emails.append(sender_email)
+
+
     # read the clients list
     clients_list = pd.read_csv(client_list)["EMAIL"].tolist()
+
+    # create a dataframe to store the answers
+    df = pd.DataFrame(columns=["EMAIL", "SUBJECT", "BODY"])
+
+    for email in emails:
+        if email in clients_list:
+
+            pd.c
+
+            message.Delete()
 
     for message in messages:
 
         # get sender email address
-        sender_email_address = message.SenderEmailAddress
+        sender_email_address = message.
 
         # check if the sender email address is in the clients list
         if sender_email_address in clients_list:
+
+            # append the answer to the csv file
+            adress, subject, body = sender_email_address, message.Subject, message.Body
+
+            pd.concat([df, pd.DataFrame([[adress, subject, body]], columns=["EMAIL", "SUBJECT", "BODY"])])
+
             # delete the email
             message.Delete()
 
+    # append the answers to the csv file
+    df.to_csv(answers_list, mode="a", header=False, index=False)
 
 def get_html_content(html_file_path):
     with open(html_file_path, "r") as file:
@@ -179,4 +209,4 @@ def send_email_with_html(
 
     # random time pause between two emails
     if random_time_spacing:
-        time.sleep(np.random.uniform(3))
+        time.sleep(np.random.uniform(1))

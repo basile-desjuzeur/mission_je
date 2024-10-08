@@ -15,12 +15,12 @@ from pathlib import Path
 ##### PARAMETERS ######
 
 MAIL_FILE = Path("./data/mail_initial.html")
-DATASET_FILE = Path("./test/test_client_answers_bdd.csv")
+DATASET_FILE = Path("./data/241003_cleaned_dataset.csv")
 MAIL_OBJECT = "Armen HEC Value Sharing Index Second Edition – Please take part in our survey"
-UNDELIVERED_EMAILS_FILE = Path("./test/test_undelivered_emails.csv")
+UNDELIVERED_EMAILS_FILE = Path("./data/undelivered_emails.csv")
 IMAGE_1 = Path("./data/photo_armen.png")
 IMAGE_2 = Path("./data/photo_signature.png")
-CHUNKSIZE = 3
+CHUNKSIZE = 100
 
 ##### MAIN ####
 
@@ -36,7 +36,7 @@ def emailing_and_clean_by_chunk(
         ):
     """
     Send email to the first chunksize adresses that have not been contacted yet (to prevent error).
-    Check the inbox and delete undelivered emails each 50 emails sent.
+    Check the inbox and delete undelivered emails each chunksize emails sent.
 
     Parameters:
     - mail_file (str) : the path to the html file containing the email content

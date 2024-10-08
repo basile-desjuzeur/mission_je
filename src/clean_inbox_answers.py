@@ -7,12 +7,13 @@
 
 ###### PARAMETERS #######
 
-CLIENT_LIST = "./test/test_client_answers_bdd.csv"
+CLIENT_LIST = "./data/241003_cleaned_dataset.csv"
+ANSWERED_EMAILS = "./data/answered_emails.csv"
 
 
-###############
+#########
 
 from utils import remove_emails_from_clients
 
 if __name__ == "__main__":
-    remove_emails_from_clients(CLIENT_LIST)
+    remove_emails_from_clients(CLIENT_LIST, ANSWERED_EMAILS)
