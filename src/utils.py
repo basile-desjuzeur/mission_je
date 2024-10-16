@@ -114,7 +114,7 @@ def remove_emails_from_clients(client_list, answers_list):
     for message in messages:
 
         # get sender email address
-        sender_email_address = message.
+        sender_email_address = message.SenderEmailAddress
 
         # check if the sender email address is in the clients list
         if sender_email_address in clients_list:
@@ -209,4 +209,4 @@ def send_email_with_html(
 
     # random time pause between two emails
     if random_time_spacing:
-        time.sleep(np.random.uniform(1))
+        time.sleep(np.random.uniform(10))

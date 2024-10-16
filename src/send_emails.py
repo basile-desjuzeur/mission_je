@@ -14,8 +14,8 @@ from pathlib import Path
 
 ##### PARAMETERS ######
 
-MAIL_FILE = Path("./data/mail_initial.html")
-DATASET_FILE = Path("./data/241003_cleaned_dataset.csv")
+MAIL_FILE = Path("./data/mail_relance.html")
+DATASET_FILE = Path("./data/uptodate_dataset.csv")
 MAIL_OBJECT = "Armen HEC Value Sharing Index Second Edition – Please take part in our survey"
 UNDELIVERED_EMAILS_FILE = Path("./data/undelivered_emails.csv")
 IMAGE_1 = Path("./data/photo_armen.png")
@@ -80,10 +80,10 @@ def emailing_and_clean_by_chunk(
     data.loc[data["EMAIL"].isin(data_temp["EMAIL"]), "SENT"] = 1
     data.to_csv(dataset_file, index=False)
 
-    # wait 4 minutes before sending the next chunk, cleans inbox meanwhile
-    #time.sleep(2 * 60)
+    # wait 1 minutes before sending the next chunk, cleans inbox meanwhile
+    time.sleep(30)
     check_undelivered_emails(undelivered_emails_file, mail_object)
-    #time.sleep(2 * 60)
+    time.sleep(30)
 
 
 
