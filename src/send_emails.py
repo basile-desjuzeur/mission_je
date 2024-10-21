@@ -72,7 +72,7 @@ def emailing_and_clean_by_chunk(
             name,
             image_path_1=image_path_1,
             image_path_2=image_path_2,
-            random_time_spacing=True)
+            time_spacing=True)
 
 
     # modify the original dataset only for the chunksize adresses that have been contacted
@@ -83,8 +83,6 @@ def emailing_and_clean_by_chunk(
     # wait 1 minutes before sending the next chunk, cleans inbox meanwhile
     time.sleep(30)
     check_undelivered_emails(undelivered_emails_file, mail_object)
-    time.sleep(30)
-
 
 
 
@@ -105,6 +103,9 @@ def main():
     del data
     
     for i in tqdm.tqdm(range(0, size, CHUNKSIZE)):
+
+        # step at 1000 emails
+
         emailing_and_clean_by_chunk()
 
 

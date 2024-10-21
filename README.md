@@ -16,18 +16,23 @@ Points clés :
 (en réalité une troisième voix : besoin de reconfirmer)
 
 - follow up sur le dataset updaté (total - adresse manquantes - ceux qui ont répondu aux sondages)
-****
 
 ## TODO
 
-- check hourly rate https://learn.microsoft.com/fr-fr/office365/servicedescriptions/exchange-online-service-description/exchange-online-limits#receiving-and-sending-limits
-- message limit exceeded
-- faire analytics et renvoi
+Le nombre de requêtes au serveur Outlook est limité :
 
+  -max : 30 message par minute => 2.5 secondes d'espacement par message
+
+  -max : 200 destinataires par message => OK
+
+  -max : 10000 messages par jour => OK
+
+(source : service IT)
 
 - Follow up  : 
   - changer object
-  
+  - check rendu (boxes ?)
+
 
 ## DONE
 

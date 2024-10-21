@@ -147,7 +147,7 @@ def send_email_with_html(
     image_path_1,
     image_path_2,
     client_surname="",
-    random_time_spacing=False,
+    time_spacing=False,
     attachment_location="",
 ):
     """
@@ -162,8 +162,7 @@ def send_email_with_html(
     - client_surname (str) : the surname of the client
     - image_path_1 (str) : path to first image
     - image_path_2 (str) : path to second image
-    - random_time_spacing (bool) : if True, a random time spacing is added
-    between two emails, uniformly distributed between à and 3 seconds
+    - time_spacing (int) : 2.5 seconds stop betweent two mails
     - attachment_location (str) : the path to the attachment file
 
     Returns :
@@ -207,6 +206,7 @@ def send_email_with_html(
     except Exception as e:
         print(e)
 
-    # random time pause between two emails
-    if random_time_spacing:
-        time.sleep(np.random.uniform(10))
+    
+    time.sleep(2.5)
+
+    print("Email sent to", email_recipient)
