@@ -46,18 +46,15 @@ def check_undelivered_emails(undelivered_emails_list, mail_object):
     messages = inbox.Items
     undelivered_emails = []
 
-
     for message in messages:
 
         # or mail_object in message.Subjec
 
-        if "Non remis" in message.Subject or "Undelivered" in message.Subject :
+        if "Non remis" in message.Subject or "Undelivered" in message.Subject:
 
-  
             undelivered_email_address = get_undeliverable_email_adress_from_error_mail(
                 message.Body
             )
-
 
             undelivered_emails.append(undelivered_email_address)
 
@@ -66,7 +63,9 @@ def check_undelivered_emails(undelivered_emails_list, mail_object):
 
     # append the undelivered email addresses to a csv file
     undelivered_emails_df = pd.DataFrame(undelivered_emails)
-    undelivered_emails_df.to_csv(undelivered_emails_list, mode="a", header=False, index=False)
+    undelivered_emails_df.to_csv(
+        undelivered_emails_list, mode="a", header=False, index=False
+    )
 
 
 def remove_emails_from_clients(client_list, answers_list):
@@ -91,12 +90,11 @@ def remove_emails_from_clients(client_list, answers_list):
 
     for sender in senders:
         if sender.GetExchangeUser():
-                sender_email = sender.GetExchangeUser().PrimarySmtpAddress
+            sender_email = sender.GetExchangeUser().PrimarySmtpAddress
         else:
             sender_email = sender.Address
 
         emails.append(sender_email)
-
 
     # read the clients list
     clients_list = pd.read_csv(client_list)["EMAIL"].tolist()
@@ -122,13 +120,21 @@ def remove_emails_from_clients(client_list, answers_list):
             # append the answer to the csv file
             adress, subject, body = sender_email_address, message.Subject, message.Body
 
-            pd.concat([df, pd.DataFrame([[adress, subject, body]], columns=["EMAIL", "SUBJECT", "BODY"])])
+            pd.concat(
+                [
+                    df,
+                    pd.DataFrame(
+                        [[adress, subject, body]], columns=["EMAIL", "SUBJECT", "BODY"]
+                    ),
+                ]
+            )
 
             # delete the email
             message.Delete()
 
     # append the answers to the csv file
     df.to_csv(answers_list, mode="a", header=False, index=False)
+
 
 def get_html_content(html_file_path):
     with open(html_file_path, "r") as file:
@@ -178,7 +184,6 @@ def send_email_with_html(
     # by replacing [Recipient's Name] by client_name
     html_content = html_content.replace("[Recipient's Name]", client_name)
 
-
     # add html content to the email
     mail.HTMLBody = html_content
 
@@ -206,7 +211,6 @@ def send_email_with_html(
     except Exception as e:
         print(e)
 
-    
     time.sleep(2.5)
 
     print("Email sent to", email_recipient)

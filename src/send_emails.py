@@ -16,7 +16,9 @@ from pathlib import Path
 
 MAIL_FILE = Path("./data/mail_relance.html")
 DATASET_FILE = Path("./data/uptodate_dataset.csv")
-MAIL_OBJECT = "Armen HEC Value Sharing Index Second Edition – Please take part in our survey"
+MAIL_OBJECT = (
+    "Armen HEC Value Sharing Index Second Edition – Please take part in our survey"
+)
 UNDELIVERED_EMAILS_FILE = Path("./data/undelivered_emails.csv")
 IMAGE_1 = Path("./data/photo_armen.png")
 IMAGE_2 = Path("./data/photo_signature.png")
@@ -26,14 +28,14 @@ CHUNKSIZE = 100
 
 
 def emailing_and_clean_by_chunk(
-        mail_file=get_html_content(MAIL_FILE),
-        dataset_file=DATASET_FILE,
-        chunksize=CHUNKSIZE,
-        image_path_1=IMAGE_1,
-        image_path_2=IMAGE_2,
-        mail_object=MAIL_OBJECT,
-        undelivered_emails_file=UNDELIVERED_EMAILS_FILE,
-        ):
+    mail_file=get_html_content(MAIL_FILE),
+    dataset_file=DATASET_FILE,
+    chunksize=CHUNKSIZE,
+    image_path_1=IMAGE_1,
+    image_path_2=IMAGE_2,
+    mail_object=MAIL_OBJECT,
+    undelivered_emails_file=UNDELIVERED_EMAILS_FILE,
+):
     """
     Send email to the first chunksize adresses that have not been contacted yet (to prevent error).
     Check the inbox and delete undelivered emails each chunksize emails sent.
@@ -72,8 +74,8 @@ def emailing_and_clean_by_chunk(
             name,
             image_path_1=image_path_1,
             image_path_2=image_path_2,
-            time_spacing=True)
-
+            time_spacing=True,
+        )
 
     # modify the original dataset only for the chunksize adresses that have been contacted
     # only for the SENT column and the corresponding adresses
@@ -83,7 +85,6 @@ def emailing_and_clean_by_chunk(
     # wait 1 minutes before sending the next chunk, cleans inbox meanwhile
     time.sleep(30)
     check_undelivered_emails(undelivered_emails_file, mail_object)
-
 
 
 def main():
@@ -101,13 +102,12 @@ def main():
     size = len(data)
 
     del data
-    
+
     for i in tqdm.tqdm(range(0, size, CHUNKSIZE)):
 
         # step at 1000 emails
 
         emailing_and_clean_by_chunk()
-
 
 
 if __name__ == "__main__":
